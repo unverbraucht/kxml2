@@ -595,7 +595,14 @@ public class KXmlParser implements XmlPullParser {
             txtBuf = bigger;
         }
 
-        txtBuf[txtPos++] = (char) c;
+	if (c > 0xffff) {
+            // write high Unicode value as surrogate pair
+            int offset = c - 0x010000;
+            txtBuf[txtPos++] = (char)((offset >>> 10) + 0xd800);
+            txtBuf[txtPos++] = (char)((offset & 0x3ff) + 0xdc00);
+        } else {
+            txtBuf[txtPos++] = (char) c;
+        }
     }
 
     /** Sets name and attributes */
