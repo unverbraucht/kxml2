@@ -589,17 +589,17 @@ public class KXmlParser implements XmlPullParser {
 
         isWhitespace &= c <= ' ';
 
-        if (txtPos == txtBuf.length) {
+        if (txtPos + 1 >= txtBuf.length) { // +1 to have enough space for 2 surrogates, if needed
             char[] bigger = new char[txtPos * 4 / 3 + 4];
             System.arraycopy(txtBuf, 0, bigger, 0, txtPos);
             txtBuf = bigger;
         }
 
-	if (c > 0xffff) {
+        if (c > 0xffff) {
             // write high Unicode value as surrogate pair
             int offset = c - 0x010000;
-            txtBuf[txtPos++] = (char)((offset >>> 10) + 0xd800);
-            txtBuf[txtPos++] = (char)((offset & 0x3ff) + 0xdc00);
+            txtBuf[txtPos++] = (char)((offset >>> 10) + 0xd800); // high surrogate
+            txtBuf[txtPos++] = (char)((offset & 0x3ff) + 0xdc00); // low surrogate
         } else {
             txtBuf[txtPos++] = (char) c;
         }
