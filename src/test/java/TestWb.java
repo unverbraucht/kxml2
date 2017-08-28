@@ -20,7 +20,7 @@ import org.xmlpull.v1.XmlSerializer;
 
 public class TestWb extends TestCase 
 {
-	public void testWb() throws IllegalArgumentException,IllegalStateException, FileNotFoundException, IOException
+	public void disabled_testWb() throws IllegalArgumentException,IllegalStateException, FileNotFoundException, IOException
 	{
 		File file=new File("compress.xml");
 		
